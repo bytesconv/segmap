@@ -6,7 +6,7 @@ import (
 	"sync"
 )
 
-const SEGM_COUNT = 13
+const SegmCount = 13
 
 type Segmap struct {
 	buckets []sync.Map
@@ -15,7 +15,7 @@ type Segmap struct {
 
 func New(segmCount uint32) *Segmap {
 	if segmCount <= 0 {
-		segmCount = SEGM_COUNT
+		segmCount = SegmCount
 	}
 
 	buckets := make([]sync.Map, segmCount)
@@ -30,7 +30,7 @@ func New(segmCount uint32) *Segmap {
 }
 
 func (segmap *Segmap) index(key string) uint32 {
-	return hashkit.Hash_fnv1_32(key) % segmap.segmCount
+	return hashkit.Fnv32(key) % segmap.segmCount
 }
 
 func (segmap *Segmap) Store(key string, value interface{}) {
